@@ -1,0 +1,15 @@
+@font-face {
+    font-family: VCR;
+    src: url("../assets/fonts/vcr.ttf");
+    font-weight: 400;
+}
+
+.points {
+    font-family: VCR, serif;
+    color: white;
+    background-color: black;
+}
+html{
+    background-color: black;
+    overflow: hidden;
+}
