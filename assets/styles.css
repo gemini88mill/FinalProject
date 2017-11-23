@@ -7,9 +7,12 @@
 .points {
     font-family: VCR, serif;
     color: white;
-    background-color: black;
+    background-color: #0B1E3F;
 }
 html{
-    background-color: black;
+    background-color: #0B1E3F;
     overflow: hidden;
+    color: white;
+    font-family: VCR, serif;
+
 }

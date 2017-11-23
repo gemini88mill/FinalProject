@@ -15955,7 +15955,7 @@ THREE.SkinnedMesh.prototype.normalizeSkinWeights = function () {
 
 			} else {
 
-				sw.set( 1 ); // this will be normalized by the shader anyway
+				sw.set( 1 ); // this will be normalized by the shaderWall anyway
 
 			}
 
@@ -18525,7 +18525,7 @@ THREE.ShaderChunk = {
 		"		float dirSpecularWeight = specularStrength * max( pow( dirDotNormalHalf, shininess ), 0.0 );",
 
 					/*
-				// fresnel term from skin shader
+				// fresnel term from skin shaderWall
 		"		const float F0 = 0.128;",
 
 		"		float base = 1.0 - dot( viewPosition, dirHalfVector );",
@@ -18535,7 +18535,7 @@ THREE.ShaderChunk = {
 				*/
 
 				/*
-				// fresnel term from fresnel shader
+				// fresnel term from fresnel shaderWall
 		"		const float mFresnelBias = 0.08;",
 		"		const float mFresnelScale = 0.3;",
 		"		const float mFresnelPower = 5.0;",
@@ -18985,7 +18985,7 @@ THREE.ShaderChunk = {
 
 		"		vec3 shadowCoord = vShadowCoord[ i ].xyz / vShadowCoord[ i ].w;",
 
-				// "if ( something && something )" 		 breaks ATI OpenGL shader compiler
+				// "if ( something && something )" 		 breaks ATI OpenGL shaderWall compiler
 				// "if ( all( something, something ) )"  using this instead
 
 		"		bvec4 inFrustumVec = bvec4 ( shadowCoord.x >= 0.0, shadowCoord.x <= 1.0, shadowCoord.y >= 0.0, shadowCoord.y <= 1.0 );",
@@ -19021,7 +19021,7 @@ THREE.ShaderChunk = {
 		"				float shadow = 0.0;",
 
 						/*
-						// nested loops breaks shader compiler / validator on some ATI cards when using OpenGL
+						// nested loops breaks shaderWall compiler / validator on some ATI cards when using OpenGL
 						// must enroll loop manually
 
 		"				for ( float y = -1.25; y <= 1.25; y += 1.25 )",
@@ -19237,7 +19237,7 @@ THREE.ShaderChunk = {
 	// http://outerra.blogspot.com/2012/11/maximizing-depth-buffer-range-and.html
 
 	// WebGL doesn't support gl_FragDepth out of the box, unless the EXT_frag_depth extension is available.  On platforms
-	// without EXT_frag_depth, we have to fall back on linear z-buffer in the fragment shader, which means that some long 
+	// without EXT_frag_depth, we have to fall back on linear z-buffer in the fragment shaderWall, which means that some long
 	// faces close to the camera may have issues.	This can be worked around by tesselating the model more finely when
 	// the camera is near the surface.
 
@@ -20055,7 +20055,7 @@ THREE.ShaderLib = {
 	},
 
 	/* -------------------------------------------------------------------------
-	//	Normal map shader
+	//	Normal map shaderWall
 	//		- Blinn-Phong
 	//		- normal + diffuse + specular + AO + displacement + reflection + shadow maps
 	//		- point and directional lights (use with "lights: true" material option)
@@ -20675,7 +20675,7 @@ THREE.ShaderLib = {
 	},
 
 	/* -------------------------------------------------------------------------
-	//	Cube map shader
+	//	Cube map shaderWall
 	 ------------------------------------------------------------------------- */
 
 	'cube': {
@@ -24872,7 +24872,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 		}
 
-		// heuristics to create shader parameters according to lights in the scene
+		// heuristics to create shaderWall parameters according to lights in the scene
 		// (not to blow over maxLights budget)
 
 		maxLightCount = allocateLights( lights );
@@ -25231,7 +25231,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 			loadUniformsGeneric( program, material.uniformsList );
 
 			// load material specific uniforms
-			// (shader material also gets them for the sake of genericity)
+			// (shaderWall material also gets them for the sake of genericity)
 
 			if ( material instanceof THREE.ShaderMaterial ||
 				 material instanceof THREE.MeshPhongMaterial ||
@@ -25996,7 +25996,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 		}
 
 		// null eventual remains from removed lights
-		// (this is to avoid if in shader)
+		// (this is to avoid if in shaderWall)
 
 		for ( l = dirLength * 3, ll = Math.max( dirColors.length, dirCount * 3 ); l < ll; l ++ ) dirColors[ l ] = 0.0;
 		for ( l = pointLength * 3, ll = Math.max( pointColors.length, pointCount * 3 ); l < ll; l ++ ) pointColors[ l ] = 0.0;
@@ -26800,7 +26800,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 		} else {
 
 			// default for when object is not specified
-			// ( for example when prebuilding shader
+			// ( for example when prebuilding shaderWall
 			//   to be used with multiple objects )
 			//
 			//  - leave some extra space for other uniforms
@@ -27375,7 +27375,7 @@ THREE.WebGLProgram = ( function () {
 
 		if ( _gl.getProgramParameter( program, _gl.LINK_STATUS ) === false ) {
 
-			console.error( 'Could not initialise shader' );
+			console.error( 'Could not initialise shaderWall' );
 			console.error( 'gl.VALIDATE_STATUS', _gl.getProgramParameter( program, _gl.VALIDATE_STATUS ) );
 			console.error( 'gl.getError()', _gl.getError() );
 
@@ -27509,7 +27509,7 @@ THREE.WebGLShader = ( function () {
 		}
 
 		// --enable-privileged-webgl-extension
-		// console.log( type, gl.getExtension( 'WEBGL_debug_shaders' ).getTranslatedShaderSource( shader ) );
+		// console.log( type, gl.getExtension( 'WEBGL_debug_shaders' ).getTranslatedShaderSource( shaderWall ) );
 
 		return shader;
 

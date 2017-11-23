@@ -5,22 +5,117 @@
     <meta charset="UTF-8">
     <title>3dBrickBreaker</title>
 
-    <script src="libs/three.js"></script>
+    <script src="libs/three.min.js"></script>
     <script src="libs/keyboard.js"></script>
-    <script type="text/javascript" src="libs/ammo.js"></script>
-    <script type="text/javascript" src="libs/physi.js"></script>
-    <script type="text/javascript" src="libs/physijs_worker.js"></script>
 
 
     <script src="js/objects.js"></script>
     <script src="js/movement.js"></script>
+    <script src="js/shaders.js"></script>
 
 </head>
 <body>
+<!--<div id="container"></div>-->
+<!--Shader section-->
+<script type="x-shader/x-vertex" id="vertexShaderPulse">
+void main() {
+    gl_Position = projectionMatrix *
+                modelViewMatrix *
+                vec4(position,1.0);
+}
+</script>
+<script type="x-shader/x-fragment" id="fragmentShaderPulse">
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform float u_time;
+
+void main() {
+	gl_FragColor = vec4(0.0,abs(sin(u_time)),abs(cos(u_time)),1.0);
+}
+</script>
+
+<script type="x-shader/x-vertex" id="vertexShaderStatic">
+void main() {
+    gl_Position = projectionMatrix *
+                modelViewMatrix *
+                vec4(position,1.0);
+}
+</script>
+<script type="x-shader/x-fragment" id="fragmentShaderStatic">
+uniform vec2 u_resolution;
+uniform float u_time;
+
+void main() {
+
+    float red = 0.5;
+    float green = 0.7;
+    float blue = 0.0;
+    float alpha = 0.5;
+
+    gl_FragColor=vec4(red,green,blue,alpha);
+}
+</script>
+
+<script type="x-shader/x-vertex" id="vertexShaderPaddle">
+// create a shared variable for the
+// VS and FS containing the normal
+varying vec3 vNormal;
+
+void main() {
+
+  // set the vNormal value with
+  // the attribute value passed
+  // in by Three.js
+  vNormal = normal;
+
+  gl_Position = projectionMatrix *
+                modelViewMatrix *
+                vec4(position, 1.0);
+}
+</script>
+<script type="x-shader/x-fragment" id="fragmentShaderPaddle">
+// same name and type as VS
+varying vec3 vNormal;
+
+void main() {
+
+  // calc the dot product and clamp
+  // 0 -> 1 rather than -1 -> 1
+  vec3 light = vec3(0.5, 0.2, 1.0);
+
+  // ensure it's normalized
+  light = normalize(light);
+
+  // calculate the dot product of
+  // the light to the vertex normal
+  float dProd = max(0.0,
+                    dot(vNormal, light));
+
+  // feed into our frag colour
+  gl_FragColor = vec4(0.2, // R
+                      0.4, // G
+                      dProd, // B
+                      1.0);  // A
+
+}
+</script>
+<!--Shader section-->
 <div>
     <h1 class="points" id="pointsDisplay">
-        Score: 0
+        <div align="left">Score: 0</div>
+        <div align="right">株式会社ナムコ </div>
     </h1>
+
+    <button onclick="hintMenu()">Hints and Credits:</button>
+    <div class="title" id="hintMenu" style="display: none">
+        Controls:<br>
+        Move Left: A<br>
+        Move Right: D<br>
+        Breal All the bricks in order to win the game<br>
+        By: Raphael Miller<br>
+    </div>
 </div>
     <script src="js/3dBrickBreaker.js"></script>
 

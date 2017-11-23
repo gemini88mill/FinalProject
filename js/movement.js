@@ -27,9 +27,10 @@ function ballMovement(){
         yDir = -yDir - 0.05;
 
     }else if(ball.position.y < border.minY){
-
-        if(Math.abs(userPaddle.position.x - ball.position.x) <= 10){
-            if(userPaddle.position.x - ball.position.x > 0){
+        var diff = userPaddle.position.x - ball.position.x;
+        if(Math.abs(diff) <= 10){
+            console.log(diff);
+            if(diff > 0){
                 yDir = Math.abs(yDir);
                 xDir = -xDir - 0.04;
             }else{
@@ -45,6 +46,7 @@ function ballMovement(){
             ball.position.y = 0;
             speedY = 0.2;
         }
+        playSound("assets/sounds/ping.mp3");
     }
 }
 
@@ -63,12 +65,12 @@ function checkCollision(){
 
             var id = collisionResults[0].object.id;
             //scene.remove(collisionResults[0].object);
-            console.log(wall.hitCount);
+            //console.log(wall.hitCount);
             for(var i = 0; i < wall.length; i++){
                 if(wall[i].id === id){
                     scene.remove(wall[i]);
                     wall.splice(i, 1);
-
+                    playSound("assets/sounds/pong.mp3");
 
                     // if(wall[i].hitCount > 200) {
                     //     scene.remove(wall[i]);
